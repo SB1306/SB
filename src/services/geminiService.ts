@@ -1,5 +1,4 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
 import { ObservationResult, GroundingSource } from "../types";
 
 export const analyzeTeachingVideo = async (videoUrl: string): Promise<ObservationResult> => {
