@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
-import { ObservationResult, GroundingSource } from "../../types";
+import { ObservationResult, GroundingSource } from "../../types.ts";
 
 export const analyzeTeachingVideo = async (videoUrl: string): Promise<ObservationResult> => {
   // ดึง API Key จาก environment variable

@@ -22,8 +22,8 @@ import {
   Calendar,
   Link as LinkIcon
 } from 'lucide-react';
-import { analyzeTeachingVideo } from './services/geminiService';
-import { ObservationResult } from '../types';
+import { analyzeTeachingVideo } from './services/geminiService.ts';
+import { ObservationResult } from '../types.ts';
 
 const App: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState('');
