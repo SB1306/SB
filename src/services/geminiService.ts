@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
-import { ObservationResult, GroundingSource } from "../types";
+import { ObservationResult, GroundingSource } from "../../types";
 
 export const analyzeTeachingVideo = async (videoUrl: string): Promise<ObservationResult> => {
   // ดึง API Key จาก environment variable
@@ -25,7 +25,7 @@ export const analyzeTeachingVideo = async (videoUrl: string): Promise<Observatio
 
   // สร้าง model พร้อม configuration
   const model = genAI.getGenerativeModel({ 
-    model: "gemini-1.5-flash",
+    model: "gemini-1.5-flash-latest",
     generationConfig: {
       responseMimeType: "application/json",
       responseSchema: {

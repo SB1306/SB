@@ -23,7 +23,7 @@ import {
   Link as LinkIcon
 } from 'lucide-react';
 import { analyzeTeachingVideo } from './services/geminiService';
-import { ObservationResult } from './types';
+import { ObservationResult } from '../types';
 
 const App: React.FC = () => {
   const [videoUrl, setVideoUrl] = useState('');

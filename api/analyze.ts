@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
     const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
     
     const model = ai.getGenerativeModel({ 
-      model: "gemini-1.5-pro",
+      model: "gemini-1.5-pro-latest",
       generationConfig: {
         responseMimeType: "application/json"
       }
