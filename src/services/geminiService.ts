@@ -10,7 +10,8 @@ export const analyzeTeachingVideo = async (videoUrl: string): Promise<Observatio
   }
   
   const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+const model = genAI.getGenerativeModel({ 
+  model: "gemini-2.0-flash-exp",
   
   
   const prompt = `คุณคือผู้เชี่ยวชาญด้านการนิเทศการเรียนการสอน (Educational Supervisor) 
