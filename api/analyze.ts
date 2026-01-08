@@ -1,5 +1,5 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -9,29 +9,25 @@ export default async function handler(req: any, res: any) {
   try {
     const { videoUrl } = req.body;
 
-    const ai = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY!
+    const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+    
+    const model = ai.getGenerativeModel({ 
+      model: "gemini-1.5-pro",
+      generationConfig: {
+        responseMimeType: "application/json"
+      }
     });
 
-    const response = await ai.models.generateContent({
-      model: "gemini-1.5-pro",
-      contents: [{
-        parts: [{
-          text: `
+    const result = await model.generateContent(`
 คุณคือศึกษานิเทศก์ผู้เชี่ยวชาญ
 วิเคราะห์วิดีโอการสอนจาก YouTube:
 ${videoUrl}
 
 ตอบกลับเป็น JSON เท่านั้น
-          `
-        }]
-      }],
-      config: {
-        responseMimeType: "application/json"
-      }
-    });
+    `);
 
-    res.status(200).json(JSON.parse(response.text));
+    const response = result.response;
+    res.status(200).json(JSON.parse(response.text()));
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: "Gemini analysis failed" });
