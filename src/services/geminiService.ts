@@ -1,9 +1,16 @@
-
+import { GoogleGenAI, SchemaType } from "@google/genai";
 import { ObservationResult, GroundingSource } from "../types";
 
 export const analyzeTeachingVideo = async (videoUrl: string): Promise<ObservationResult> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || "" });
-  const model = "gemini-3-pro-preview";
+  // ดึง API Key จาก environment variable ที่ตั้งไว้ใน Vercel
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+  
+  if (!apiKey) {
+    throw new Error("กรุณาตั้งค่า GEMINI_API_KEY ใน Vercel Environment Variables");
+  }
+  
+  const ai = new GoogleGenAI({ apiKey });
+  const model = "gemini-2.0-flash-exp"; // ใช้ model ที่มีจริง
   
   const prompt = `คุณคือผู้เชี่ยวชาญด้านการนิเทศการเรียนการสอน (Educational Supervisor) 
   ภารกิจ: วิเคราะห์คลิปวิดีโอการสอนจากลิงก์นี้: ${videoUrl}
@@ -24,38 +31,38 @@ export const analyzeTeachingVideo = async (videoUrl: string): Promise<Observatio
       tools: [{ googleSearch: {} }],
       responseMimeType: "application/json",
       responseSchema: {
-        type: Type.OBJECT,
+        type: SchemaType.OBJECT,
         properties: {
-          overview: { type: Type.STRING },
+          overview: { type: SchemaType.STRING },
           events: {
-            type: Type.OBJECT,
+            type: SchemaType.OBJECT,
             properties: {
-              teacherBehavior: { type: Type.STRING },
-              studentBehavior: { type: Type.STRING },
-              activeLearning: { type: Type.STRING },
-              questioning: { type: Type.STRING },
-              relationships: { type: Type.STRING },
-              engagement: { type: Type.STRING },
-              technology: { type: Type.STRING },
-              assessment: { type: Type.STRING },
-              conclusion: { type: Type.STRING },
+              teacherBehavior: { type: SchemaType.STRING },
+              studentBehavior: { type: SchemaType.STRING },
+              activeLearning: { type: SchemaType.STRING },
+              questioning: { type: SchemaType.STRING },
+              relationships: { type: SchemaType.STRING },
+              engagement: { type: SchemaType.STRING },
+              technology: { type: SchemaType.STRING },
+              assessment: { type: SchemaType.STRING },
+              conclusion: { type: SchemaType.STRING },
             },
             required: ["teacherBehavior", "studentBehavior", "activeLearning", "questioning", "relationships", "engagement", "technology", "assessment", "conclusion"]
           },
           tableSummary: {
-            type: Type.ARRAY,
+            type: SchemaType.ARRAY,
             items: {
-              type: Type.OBJECT,
+              type: SchemaType.OBJECT,
               properties: {
-                item: { type: Type.STRING },
-                observation: { type: Type.STRING },
-                result: { type: Type.STRING, enum: ["ดีมาก", "ดี", "ควรพัฒนา"] }
+                item: { type: SchemaType.STRING },
+                observation: { type: SchemaType.STRING },
+                result: { type: SchemaType.STRING, enum: ["ดีมาก", "ดี", "ควรพัฒนา"] }
               },
               required: ["item", "observation", "result"]
             }
           },
-          strengths: { type: Type.ARRAY, items: { type: Type.STRING } },
-          recommendations: { type: Type.ARRAY, items: { type: Type.STRING } }
+          strengths: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+          recommendations: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } }
         },
         required: ["overview", "events", "tableSummary", "strengths", "recommendations"]
       }
