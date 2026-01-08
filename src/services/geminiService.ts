@@ -25,7 +25,7 @@ export const analyzeTeachingVideo = async (videoUrl: string): Promise<Observatio
 
   // สร้าง model พร้อม configuration
   const model = genAI.getGenerativeModel({ 
-    model: "gemini-1.5-flash-latest",
+    model: "gemini-1.5-flash-002",
     generationConfig: {
       responseMimeType: "application/json",
       responseSchema: {
