@@ -1,4 +1,4 @@
-import { GoogleGenAI, SchemaType } from "@google/genai";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import { ObservationResult, GroundingSource } from "../types";
 
 export const analyzeTeachingVideo = async (videoUrl: string): Promise<ObservationResult> => {
@@ -9,8 +9,9 @@ export const analyzeTeachingVideo = async (videoUrl: string): Promise<Observatio
     throw new Error("กรุณาตั้งค่า GEMINI_API_KEY ใน Vercel Environment Variables");
   }
   
-  const ai = new GoogleGenAI({ apiKey });
-  const model = "gemini-2.0-flash-exp"; // ใช้ model ที่มีจริง
+  const genAI = new GoogleGenerativeAI(apiKey);
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+  
   
   const prompt = `คุณคือผู้เชี่ยวชาญด้านการนิเทศการเรียนการสอน (Educational Supervisor) 
   ภารกิจ: วิเคราะห์คลิปวิดีโอการสอนจากลิงก์นี้: ${videoUrl}
